@@ -342,7 +342,7 @@ jobs:
         echo "WHEEL_FPATH=$WHEEL_FPATH"
         echo "INSTALL_EXTRAS=$INSTALL_EXTRAS"
         echo "MOD_VERSION=$MOD_VERSION"
-        python -m uv pip install "xdoctest[$INSTALL_EXTRAS]==$MOD_VERSION" 'pyzmq==26.*' -f wheelhouse
+        python -m uv pip install "xdoctest[$INSTALL_EXTRAS]==$MOD_VERSION" -f wheelhouse
         echo "Install finished."
     - name: Test wheel ${{ matrix.install-extras }}
       shell: bash
@@ -373,7 +373,7 @@ jobs:
         # echo "FINISH RUN PYTEST WITHOUT NOTEBOOK"
 
         echo "RUN PYTEST WITH ONE NOTEBOOK TEST"
-        python -X faulthandler -X dev -m pytest --setup-show --log-cli-level=DEBUG -s -vv -k "test_xdoctest_inside_notebook" "$MOD_DPATH" ../tests
+        python -X faulthandler -X dev -m pytest --setup-show --log-cli-level=DEBUG -s -vv -k "test_xdoctest_debug" "$MOD_DPATH" ../tests
         echo "FINISH RUN PYTEST WITH ONE NOTEBOOK TEST"
 
         echo "DO MAIN RUN OF PYTEST"

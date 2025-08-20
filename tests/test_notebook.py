@@ -76,6 +76,26 @@ def demodata_notebook_fpath():
     return notebook_fpath
 
 
+def test_xdoctest_debug():
+    import zmq
+    with zmq.Context() as ctx:
+        print(f"have {ctx=}")
+        url = "tcp://127.0.0.1:58542"
+        with ctx.socket(zmq.ROUTER) as server, ctx.socket(zmq.DEALER) as client:
+            server.linger = client.linger = 1_000
+            print("connecting")
+            client.connect(url)
+            print("binding")
+            server.bind(url)
+            print("sending")
+            client.send(b"ping")
+            msg = server.recv_multipart()
+            print("recvd", msg, "replying")
+            server.send_multipart(msg)
+            reply = client.recv_multipart()
+            print("recvd reply", reply)
+
+
 def test_xdoctest_inside_notebook():
     """
     xdoctest ~/code/xdoctest/tests/test_notebook.py test_xdoctest_inside_notebook
