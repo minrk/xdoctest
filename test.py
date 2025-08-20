@@ -45,4 +45,5 @@ def test_xdoctest_debug():
                     print(output.text)
 
 
-test_xdoctest_debug()
+if __name__ == "__main__":
+    test_xdoctest_debug()

@@ -34,4 +34,5 @@ jobs:
         pip install -v pyzmq pytest nbclient ipykernel .
     - name: test
       run: |
-        python test.py
+        python ./test.py
+        python -m pytest -vvsx ./test.py
