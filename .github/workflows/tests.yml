@@ -378,7 +378,9 @@ jobs:
         # echo "RUN PYTEST WITHOUT NOTEBOOK"
         # python -X faulthandler -X dev -m pytest -k "not notebook" "$MOD_DPATH" ../tests
         # echo "FINISH RUN PYTEST WITHOUT NOTEBOOK"
-
+        echo "RUN TEST.py"
+        python test.py
+        
         echo "RUN PYTEST WITH ONE NOTEBOOK TEST"
         python -X faulthandler -X dev -m pytest --setup-show --log-cli-level=DEBUG -s -vv -k "test_xdoctest_debug" ../tests/test_notebook.py
         echo "FINISH RUN PYTEST WITH ONE NOTEBOOK TEST"
