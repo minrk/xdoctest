@@ -1,0 +1,36 @@
+name: bare-pyzmq
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-pyzmq:
+    name: ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: "3.13"
+            os: ubuntu-latest
+          - python-version: "3.14"
+            os: ubuntu-latest
+          - python-version: "3.13"
+            os: windows-latest
+          - python-version: "3.14"
+            os: windows-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: install
+      run: |
+        pip install -v pyzmq
+    - name: test
+      run: |
+        python test.py
