@@ -6,10 +6,12 @@
 
 name: PurePyCI
 
-on: {}
+on:
+  push:
 
 jobs:
   lint_job:
+    if: false
     ##
     # Run quick linting and typing checks.
     # To disable all linting add "linter=false" to the xcookie config.
@@ -44,6 +46,7 @@ jobs:
     ##
     name: Build sdist
     runs-on: ubuntu-latest
+    if: false
     steps:
     - name: Checkout source
       uses: actions/checkout@v4.2.2
@@ -106,6 +109,7 @@ jobs:
         name: sdist_wheels
         path: ./wheelhouse/xdoctest*.tar.gz
   build_purepy_wheels:
+    if: false
     ##
     # Download and test the pure-python wheels that were build in the
     # build_purepy_wheels and test them in this independent environment.
@@ -152,8 +156,8 @@ jobs:
     name: ${{ matrix.python-version }} on ${{ matrix.os }}, arch=${{ matrix.arch }} with ${{ matrix.install-extras }}
     if: "! startsWith(github.event.ref, 'refs/heads/release')"
     runs-on: ${{ matrix.os }}
-    needs:
-    - build_purepy_wheels
+    # needs:
+    # - build_purepy_wheels
     strategy:
       fail-fast: false
       matrix:
@@ -303,13 +307,14 @@ jobs:
       uses: actions/setup-python@v5.6.0
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: actions/download-artifact@v4.1.8
-      name: Download wheels
-      with:
-        pattern: wheels-*
-        merge-multiple: true
-        path: wheelhouse
+    # - uses: actions/download-artifact@v4.1.8
+    #   name: Download wheels
+    #   with:
+    #     pattern: wheels-*
+    #     merge-multiple: true
+    #     path: wheelhouse
     - name: Install wheel ${{ matrix.install-extras }}
+      if: false
       shell: bash
       env:
         INSTALL_EXTRAS: ${{ matrix.install-extras }}
@@ -342,6 +347,10 @@ jobs:
         # python -m uv pip install "xdoctest[$INSTALL_EXTRAS]==$MOD_VERSION" -f wheelhouse
         python -m pip install -v --no-binary pyzmq pytest pyzmq
         echo "Install finished."
+    - name: install basics
+      shell: bash
+      run: |
+        python -m pip install -v pyzmq pytest pyzmq .
     - name: Test wheel ${{ matrix.install-extras }}
       shell: bash
       env:
