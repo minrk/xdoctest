@@ -38,6 +38,6 @@ jobs:
         python -m uv pip install -v pyzmq pytest nbclient ipykernel .
     - name: test
       run: |
-        python ./test.py
+        python -X dev ./test.py
         python -m pytest -vvsx ./test.py
         python -m pytest -vvsx ./tests/test_notebook.py
