@@ -346,7 +346,7 @@ jobs:
         echo "WHEEL_FPATH=$WHEEL_FPATH"
         echo "INSTALL_EXTRAS=$INSTALL_EXTRAS"
         echo "MOD_VERSION=$MOD_VERSION"
-        python -m uv pip install "xdoctest[$INSTALL_EXTRAS]==$MOD_VERSION" -f wheelhouse
+        python -m uv pip install "xdoctest[$INSTALL_EXTRAS]==$MOD_VERSION" 'pyzmq==26.*' -f wheelhouse
         echo "Install finished."
     - name: Test wheel ${{ matrix.install-extras }}
       shell: bash
