@@ -28,9 +28,13 @@ def test_xdoctest_debug():
     import nbformat  # NOQA
     from nbclient import NotebookClient
 
-    notebook_fpath = (
-        Path(__file__).parent.resolve() / "tests" / "notebook_with_doctests.ipynb"
-    )
+    if "REPO_ROOT" in os.environ:
+        root_dir = Path(os.environ["REPO_ROOT"])
+    else:
+        root_dir = Path(__file__).parent
+    root_dir = root_dir.resolve()
+
+    notebook_fpath = root_dir / "tests" / "notebook_with_doctests.ipynb"
     with open(notebook_fpath, "r+") as file:
         nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
     print("creating client")

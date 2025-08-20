@@ -363,12 +363,13 @@ jobs:
         mkdir -p $WORKSPACE_DNAME
         echo "cd-ing into the workspace"
         cp -v test.py $WORKSPACE_DNAME/test.py
+        export REPO_ROOT='$PWD'
         cd $WORKSPACE_DNAME
         pwd
         ls -altr
         # Get the path to the installed package and run the tests
-        # export MOD_DPATH=$(python -c "import xdoctest, os; print(os.path.dirname(xdoctest.__file__))")
-        # export MOD_NAME=xdoctest
+        export MOD_DPATH=$(python -c "import xdoctest, os; print(os.path.dirname(xdoctest.__file__))")
+        export MOD_NAME=xdoctest
         echo "
         ---
         MOD_DPATH = $MOD_DPATH
