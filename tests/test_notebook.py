@@ -1,4 +1,5 @@
 import pytest
+import threading
 import sys
 from os.path import join, exists, dirname
 try:
@@ -8,6 +9,20 @@ except ImportError:
 
 PY_VERSION = LooseVersion('{}.{}'.format(*sys.version_info[0:2]))
 IS_MODERN_PYTHON = PY_VERSION > LooseVersion('3.4')
+
+
+@pytest.fixture(scope="session", autouse=True)
+def show_threads_session():
+    print(f"threads before session: {threading.enumerate()}")
+    yield
+    print(f"threads after session: {threading.enumerate()}")
+
+
+@pytest.fixture(autouse=True)
+def show_threads_test():
+    print(f"threads before test: {threading.enumerate()}")
+    yield
+    print(f"threads after test: {threading.enumerate()}")
 
 
 def skip_notebook_tests_if_unsupported():
@@ -75,7 +90,13 @@ def test_xdoctest_inside_notebook():
     notebook_fpath = demodata_notebook_fpath()
 
     from xdoctest.utils import util_notebook
-    nb, resources = util_notebook.execute_notebook(notebook_fpath, verbose=3)
+    try:
+        nb, resources = util_notebook.execute_notebook(notebook_fpath, verbose=3)
+    except Exception as e:
+        print(f"Except! {e}")
+        raise
+    finally:
+        print("end of execute_notebook")
 
     last_cell = nb['cells'][-1]
     text = last_cell['outputs'][0]['text']
