@@ -81,12 +81,16 @@ def test_xdoctest_debug():
 
     with zmq.Context() as ctx:
         print(f"have {ctx=}")
-        url = "tcp://localhost:5555"
+        interface = "tcp://127.0.0.1"
         with ctx.socket(zmq.ROUTER) as server, ctx.socket(zmq.DEALER) as client:
             server.linger = client.linger = 1_000
+            print("linger")
+            print(server.get(zmq.LINGER))
             print("binding")
-            server.bind(url)
-            print("connecting")
+            port = server.bind_to_random_port(interface)
+            print(f"bound to {port}")
+            url = f"{interface}:{port}"
+            print(f"connecting to {url}")
             client.connect(url)
             print("sending")
             client.send(b"ping")
