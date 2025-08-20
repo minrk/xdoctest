@@ -279,16 +279,12 @@ jobs:
         #  install-extras: tests,optional
         #  os: windows-latest
         #  arch: auto
-        #- python-version: '3.13'
-        #  install-extras: tests,optional
-        #  os: windows-latest
-        #  arch: auto
-        - python-version: 3.14.0-rc.1
+        - python-version: '3.13'
           install-extras: tests,optional
           os: windows-latest
           arch: auto
         - python-version: 3.14.0-rc.1
-          install-extras: tests
+          install-extras: tests,optional
           os: windows-latest
           arch: auto
         #- python-version: pypy-3.9
