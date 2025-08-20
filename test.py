@@ -1,8 +1,9 @@
+import os
 from pathlib import Path
+import zmq
 
 
 def test_xdoctest_debug():
-    import zmq
 
     with zmq.Context() as ctx:
         print(f"have {ctx=}")
