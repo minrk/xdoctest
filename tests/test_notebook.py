@@ -78,8 +78,6 @@ def demodata_notebook_fpath():
 
 def test_xdoctest_debug():
     import zmq
-    import nbformat  # NOQA
-    from nbclient import NotebookClient
 
     with zmq.Context() as ctx:
         print(f"have {ctx=}")
@@ -98,6 +96,8 @@ def test_xdoctest_debug():
             reply = client.recv_multipart()
             print("recvd reply", reply)
 
+    import nbformat  # NOQA
+    from nbclient import NotebookClient
     notebook_fpath = demodata_notebook_fpath()
     with open(notebook_fpath, 'r+') as file:
         nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
