@@ -31,7 +31,7 @@ jobs:
         allow-prereleases: true
     - name: install
       run: |
-        pip install -v pyzmq pytest nbclient ipykernel
+        pip install -v pyzmq pytest nbclient ipykernel .
     - name: test
       run: |
         python test.py
