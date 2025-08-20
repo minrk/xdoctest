@@ -5,10 +5,9 @@ on:
   pull_request:
     branches: [ main ]
 
-defaults:
-  run:
-    env:
-      PYTHONFAULTHANDLER: "1"
+env:
+  PYTHONFAULTHANDLER: "1"
+
 jobs:
   test-pyzmq:
     name: ${{ matrix.python-version }} on ${{ matrix.os }}
