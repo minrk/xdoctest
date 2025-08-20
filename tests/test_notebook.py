@@ -83,7 +83,7 @@ def test_xdoctest_debug():
 
     with zmq.Context() as ctx:
         print(f"have {ctx=}")
-        url = "tcp://127.0.0.1:58542"
+        url = "tcp://127.0.0.1:5555"
         with ctx.socket(zmq.ROUTER) as server, ctx.socket(zmq.DEALER) as client:
             server.linger = client.linger = 1_000
             print("binding")
