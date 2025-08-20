@@ -363,7 +363,7 @@ jobs:
         mkdir -p $WORKSPACE_DNAME
         echo "cd-ing into the workspace"
         cp -v test.py $WORKSPACE_DNAME/test.py
-        export REPO_ROOT='$PWD'
+        export REPO_ROOT="$PWD"
         cd $WORKSPACE_DNAME
         pwd
         ls -altr
