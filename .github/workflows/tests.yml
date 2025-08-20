@@ -362,6 +362,7 @@ jobs:
         echo "WORKSPACE_DNAME=$WORKSPACE_DNAME"
         mkdir -p $WORKSPACE_DNAME
         echo "cd-ing into the workspace"
+        cp -v test.py $WORKSPACE_DNAME/test.py
         cd $WORKSPACE_DNAME
         pwd
         ls -altr
