@@ -78,15 +78,18 @@ def demodata_notebook_fpath():
 
 def test_xdoctest_debug():
     import zmq
+    import nbformat  # NOQA
+    from nbclient import NotebookClient
+
     with zmq.Context() as ctx:
         print(f"have {ctx=}")
         url = "tcp://127.0.0.1:58542"
         with ctx.socket(zmq.ROUTER) as server, ctx.socket(zmq.DEALER) as client:
             server.linger = client.linger = 1_000
-            print("connecting")
-            client.connect(url)
             print("binding")
             server.bind(url)
+            print("connecting")
+            client.connect(url)
             print("sending")
             client.send(b"ping")
             msg = server.recv_multipart()
@@ -95,6 +98,19 @@ def test_xdoctest_debug():
             reply = client.recv_multipart()
             print("recvd reply", reply)
 
+    notebook_fpath = demodata_notebook_fpath()
+    with open(notebook_fpath, 'r+') as file:
+        nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
+    print("creating client")
+    nbc = NotebookClient(nb)
+    print("executing")
+    nb = nbc.execute()
+    print("executed")
+    for cell in nb.cells:
+        if cell.cell_type == 'code':
+            for output in cell.outputs:
+                if output.output_type == 'stream':
+                    print(output.text)
 
 def test_xdoctest_inside_notebook():
     """
