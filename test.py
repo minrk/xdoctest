@@ -41,15 +41,21 @@ def test_xdoctest_debug():
     print("creating client")
     nbc = NotebookClient(nb)
     print("executing")
-    nb = nbc.execute()
-    print("executed")
-    for cell in nb.cells:
-        if cell.cell_type == "code":
-            for output in cell.outputs:
-                if output.output_type == "stream":
-                    print(output.text)
     ctx = zmq.Context.instance()
-    print(f"{ctx._sockets=}")
+        print(f"before {ctx._sockets=}")
+    with nbc.setup_kernel():
+        print(f"during {ctx._sockets=}")
+        kernel_ctx = nbc.kc.context
+        print(f"{ctx=} {kernel_ctx=}")
+
+    # nb = nbc.execute()
+    # print("executed")
+    # for cell in nb.cells:
+    #     if cell.cell_type == "code":
+    #         for output in cell.outputs:
+    #             if output.output_type == "stream":
+    #                 print(output.text)
+    print(f"after {ctx._sockets=}")
     ctx.destroy()
     print("destroyed")
 
