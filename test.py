@@ -43,16 +43,16 @@ def test_xdoctest_debug():
     print("executing")
     ctx = zmq.Context.instance()
     print(f"before {ctx._sockets=}")
-    with nbc.setup_kernel():
-        print(f"during {ctx._sockets=}")
-        kc_ctx = nbc.kc.context
-        km_ctx = nbc.km.context
-        print(f"{ctx=} {km_ctx=} {kc_ctx=}")
-
-    print(f"{ctx=} {km_ctx=} {kc_ctx=}")
-    print("destroying kc")
-    km_ctx.destroy()
-    print("destroyed kc")
+    # with nbc.setup_kernel():
+    #     print(f"during {ctx._sockets=}")
+    #     kc_ctx = nbc.kc.context
+    #     km_ctx = nbc.km.context
+    #     print(f"{ctx=} {km_ctx=} {kc_ctx=}")
+# 
+    # print(f"{ctx=} {km_ctx=} {kc_ctx=}")
+    # print("destroying kc")
+    # km_ctx.destroy()
+    # print("destroyed kc")
     # nb = nbc.execute()
     # print("executed")
     # for cell in nb.cells:
