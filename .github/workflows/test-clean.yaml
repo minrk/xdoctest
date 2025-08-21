@@ -24,9 +24,9 @@ jobs:
           - python-version: "3.14"
             os: ubuntu-latest
           - python-version: "3.13"
-            os: windows-latest
+            os: windows-2025
           - python-version: "3.14"
-            os: windows-latest
+            os: windows-2025
     steps:
     - name: Checkout source
       uses: actions/checkout@v4
