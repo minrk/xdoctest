@@ -52,12 +52,10 @@ def ensure_event_loop() -> asyncio.AbstractEventLoop:
 
 
 async def task():
-    print("in test")
     return
 
 def test_crash():
-    ensure_event_loop()
-    print("test done")
+    _loop.set(asyncio.new_event_loop())
 
 if __name__ == "__main__":
     test_crash()
