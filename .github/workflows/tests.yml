@@ -6,7 +6,8 @@
 
 name: PurePyCI
 
-on: {}
+on:
+  workflow_dispatch:
 
 jobs:
   lint_job:
