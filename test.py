@@ -48,7 +48,9 @@ def test_xdoctest_debug():
             for output in cell.outputs:
                 if output.output_type == "stream":
                     print(output.text)
-
+    ctx = zmq.Context.instance()
+    print(f"{ctx._sockets=}")
+    ctx.destroy()
 
 if __name__ == "__main__":
     test_xdoctest_debug()
