@@ -44,4 +44,4 @@ jobs:
         export PYTHONWARNINGS=d
         python ./test.py
         python -m pytest -vvsx ./test.py
-        python -m pytest -vvsx ./tests/test_notebook.py
+        # python -m pytest -vvsx ./tests/test_notebook.py

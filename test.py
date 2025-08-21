@@ -21,7 +21,7 @@ def test_xdoctest_debug():
 
     # import nbformat  # NOQA
     # from nbclient import NotebookClient
-    # from jupyter_core.utils import run_sync
+    from jupyter_core.utils import run_sync
 
     if "REPO_ROOT" in os.environ:
         root_dir = Path(os.environ["REPO_ROOT"])
@@ -39,23 +39,22 @@ def test_xdoctest_debug():
     # print(f"before {ctx._sockets=}")
     from jupyter_client import KernelManager, AsyncKernelManager
     from functools import partial
-    async def f():
-        km = AsyncKernelManager()
-        print(f"{km=}")
-        await km.start_kernel()
+    km = AsyncKernelManager()
+    print(f"{km=}")
+    run_sync(km.start_kernel)()
         # kc = km.client()
         # print(f"{kc=}")
         # kc.start_channels()
         # await kc.wait_for_ready()
         # kc.stop_channels()
         # kc.context.destroy()
-        await km.shutdown_kernel(now=True)
-        await km.cleanup_resources()
+    run_sync(km.shutdown_kernel)(now=True)
+    run_sync(km.cleanup_resources)()
         # print(f"{kc.context=}")
-        print(f"{km.context=}")
+    print(f"{km.context=}")
         # km.context.destroy()
-        print(f"{threading.enumerate()=}")
-    asyncio.run(f())
+    print(f"{threading.enumerate()=}")
+    # asyncio.run(f())
     
     # run_sync(km.)
     # with nbc.setup_kernel():
