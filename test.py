@@ -51,6 +51,7 @@ def test_xdoctest_debug():
     ctx = zmq.Context.instance()
     print(f"{ctx._sockets=}")
     ctx.destroy()
+    print("destroyed")
 
 if __name__ == "__main__":
     test_xdoctest_debug()
