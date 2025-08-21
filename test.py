@@ -28,6 +28,7 @@ def test_xdoctest_debug():
 
     import nbformat  # NOQA
     from nbclient import NotebookClient
+    from jupyter_core.utils import run_sync
 
     if "REPO_ROOT" in os.environ:
         root_dir = Path(os.environ["REPO_ROOT"])
@@ -35,14 +36,33 @@ def test_xdoctest_debug():
         root_dir = Path(__file__).parent
     root_dir = root_dir.resolve()
 
-    notebook_fpath = root_dir / "tests" / "notebook_with_doctests.ipynb"
-    with open(notebook_fpath, "r+") as file:
-        nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
+    # notebook_fpath = root_dir / "tests" / "notebook_with_doctests.ipynb"
+    # with open(notebook_fpath, "r+") as file:
+        # nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
     print("creating client")
-    nbc = NotebookClient(nb)
+    # nbc = NotebookClient(nb)
     print("executing")
     ctx = zmq.Context.instance()
     print(f"before {ctx._sockets=}")
+    from jupyter_client import AsyncKernelManager
+    km = AsyncKernelManager()
+    print(f"{km=}")
+    run_sync(km.start_kernel)()
+    async def make_client():
+        kc = km.client()
+        print(f"{kc=}")
+        kc.start_channels()
+        await kc.wait_for_ready()
+        return kc
+        
+    kc = run_sync(make_client)()
+    print(f"{kc=}")
+    kc.stop_channels()
+    from functools import partial
+    run_sync(partial(km.shutdown_kernel, now=True))()
+    run_sync(km.cleanup_resources)()
+    
+    # run_sync(km.)
     # with nbc.setup_kernel():
     #     print(f"during {ctx._sockets=}")
     #     kc_ctx = nbc.kc.context
