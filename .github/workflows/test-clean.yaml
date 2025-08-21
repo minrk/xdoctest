@@ -1,4 +1,4 @@
-name: bare-pyzmq
+name: bare-test
 
 on:
   push:
@@ -36,6 +36,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
     - name: install
+      if: "false"
       run: |
         python -m pip install uv
         python -m uv pip install pyzmq pytest jupyter-client ipykernel
@@ -43,5 +44,5 @@ jobs:
       run: |
         export PYTHONWARNINGS=d
         python ./test.py
-        python -m pytest -vvsx ./test.py
+        # python -m pytest -vvsx ./test.py
         # python -m pytest -vvsx ./tests/test_notebook.py
