@@ -38,7 +38,7 @@ jobs:
     - name: install
       run: |
         python -m pip install uv
-        python -m uv pip install -v pyzmq pytest nbclient ipykernel .
+        python -m uv pip install pyzmq pytest nbclient ipykernel .
     - name: test
       run: |
         export PYTHONWARNINGS=d
