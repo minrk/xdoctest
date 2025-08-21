@@ -8,29 +8,20 @@ import zmq
 def test_xdoctest_debug():
 
     with zmq.Context() as ctx:
-        print(f"have {ctx=}")
         interface = "tcp://127.0.0.1"
         with ctx.socket(zmq.ROUTER) as server, ctx.socket(zmq.DEALER) as client:
             server.linger = client.linger = 1_000
-            print("linger")
-            print(server.get(zmq.LINGER))
-            print("binding")
             port = server.bind_to_random_port(interface)
-            print(f"bound to {port}")
             url = f"{interface}:{port}"
-            print(f"connecting to {url}")
             client.connect(url)
-            print("sending")
             client.send(b"ping")
             msg = server.recv_multipart()
-            print("recvd", msg, "replying")
             server.send_multipart(msg)
             reply = client.recv_multipart()
-            print("recvd reply", reply)
 
-    import nbformat  # NOQA
-    from nbclient import NotebookClient
-    from jupyter_core.utils import run_sync
+    # import nbformat  # NOQA
+    # from nbclient import NotebookClient
+    # from jupyter_core.utils import run_sync
 
     if "REPO_ROOT" in os.environ:
         root_dir = Path(os.environ["REPO_ROOT"])
@@ -41,27 +32,28 @@ def test_xdoctest_debug():
     # notebook_fpath = root_dir / "tests" / "notebook_with_doctests.ipynb"
     # with open(notebook_fpath, "r+") as file:
         # nb = nbformat.read(file, as_version=nbformat.NO_CONVERT)
-    print("creating client")
+    # print("creating client")
     # nbc = NotebookClient(nb)
-    print("executing")
-    ctx = zmq.Context.instance()
-    print(f"before {ctx._sockets=}")
+    # print("executing")
+    # ctx = zmq.Context.instance()
+    # print(f"before {ctx._sockets=}")
     from jupyter_client import KernelManager, AsyncKernelManager
     from functools import partial
     async def f():
         km = AsyncKernelManager()
         print(f"{km=}")
         await km.start_kernel()
-        kc = km.client()
-        print(f"{kc=}")
-        kc.start_channels()
-        await kc.wait_for_ready()
-        kc.stop_channels()
-        kc.context.destroy()
+        # kc = km.client()
+        # print(f"{kc=}")
+        # kc.start_channels()
+        # await kc.wait_for_ready()
+        # kc.stop_channels()
+        # kc.context.destroy()
         await km.shutdown_kernel(now=True)
         await km.cleanup_resources()
-        print(f"{kc.context=}")
+        # print(f"{kc.context=}")
         print(f"{km.context=}")
+        # km.context.destroy()
         print(f"{threading.enumerate()=}")
     asyncio.run(f())
     
