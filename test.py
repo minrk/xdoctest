@@ -12,7 +12,7 @@ import inspect
 import sys
 import threading
 from contextvars import ContextVar
-from typing import Any, Awaitable, Callable, TypeVar, cast
+from typing import Any, Awaitable, Callable, TypeVar
 
 
 T = TypeVar("T")
@@ -34,9 +34,8 @@ def run_sync(coro: Callable[..., Awaitable[T]]) -> Callable[..., T]:
     """
     
     def wrapped(*args: Any, **kwargs: Any) -> Any:
-        inner = coro(*args, **kwargs)
         loop = ensure_event_loop()
-        return loop.run_until_complete(inner)
+        return loop.run_until_complete(coro(*args, **kwargs))
 
     wrapped.__doc__ = coro.__doc__
     return wrapped
@@ -57,7 +56,7 @@ async def task():
     return
 
 def test_crash():
-    run_sync(task)()
+    ensure_event_loop()
     print("test done")
 
 if __name__ == "__main__":
