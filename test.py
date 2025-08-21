@@ -57,7 +57,8 @@ def test_xdoctest_debug():
         print(f"{km.context=}")
             # km.context.destroy()
         print(f"{threading.enumerate()=}")
-    asyncio.run(f())
+    # asyncio.run(f())
+    run_sync(f)()
     
     # run_sync(km.)
     # with nbc.setup_kernel():
