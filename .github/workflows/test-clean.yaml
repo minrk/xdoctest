@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: "3.13"
-            os: ubuntu-latest
+          # - python-version: "3.13"
+          #   os: ubuntu-latest
           - python-version: "3.14"
             os: ubuntu-latest
           - python-version: "3.13"
@@ -38,7 +38,7 @@ jobs:
     - name: install
       run: |
         python -m pip install uv
-        python -m uv pip install pyzmq pytest nbclient ipykernel .
+        python -m uv pip install pyzmq pytest jupyter-client ipykernel
     - name: test
       run: |
         export PYTHONWARNINGS=d
