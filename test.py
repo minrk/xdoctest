@@ -42,7 +42,7 @@ def test_xdoctest_debug():
     nbc = NotebookClient(nb)
     print("executing")
     ctx = zmq.Context.instance()
-        print(f"before {ctx._sockets=}")
+    print(f"before {ctx._sockets=}")
     with nbc.setup_kernel():
         print(f"during {ctx._sockets=}")
         kernel_ctx = nbc.kc.context
