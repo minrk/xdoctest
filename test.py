@@ -28,8 +28,10 @@ class _TaskRunner:
         atexit.register(self._close)
 
     def _close(self) -> None:
+        print("in self._close", self, self.__io_loop)
         if self.__io_loop:
             self.__io_loop.stop()
+        print("runner closed")
 
     def _runner(self) -> None:
         loop = self.__io_loop
