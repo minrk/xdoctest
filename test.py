@@ -58,7 +58,7 @@ def test_xdoctest_debug():
     # kc = run_sync(make_client)()
     # print(f"{kc=}")
     # kc.stop_channels()
-    # from functools import partial
+    from functools import partial
     run_sync(partial(km.shutdown_kernel, now=True))()
     run_sync(km.cleanup_resources)()
     
