@@ -6,8 +6,7 @@
 
 name: PurePyCI
 
-on:
-  push:
+on: {}
 
 jobs:
   lint_job:
