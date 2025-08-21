@@ -1,4 +1,6 @@
+import asyncio
 import os
+import threading
 from pathlib import Path
 import zmq
 
@@ -45,22 +47,23 @@ def test_xdoctest_debug():
     ctx = zmq.Context.instance()
     print(f"before {ctx._sockets=}")
     from jupyter_client import KernelManager, AsyncKernelManager
-    km = AsyncKernelManager()
-    print(f"{km=}")
-    run_sync(km.start_kernel)()
-    # async def make_client():
-    #     kc = km.client()
-    #     print(f"{kc=}")
-    #     kc.start_channels()
-    #     await kc.wait_for_ready()
-    #     return kc
-    #     
-    # kc = run_sync(make_client)()
-    # print(f"{kc=}")
-    # kc.stop_channels()
     from functools import partial
-    run_sync(partial(km.shutdown_kernel, now=True))()
-    run_sync(km.cleanup_resources)()
+    async def f():
+        km = AsyncKernelManager()
+        print(f"{km=}")
+        await km.start_kernel()
+        kc = km.client()
+        print(f"{kc=}")
+        kc.start_channels()
+        await kc.wait_for_ready()
+        kc.stop_channels()
+        kc.context.destroy()
+        await km.shutdown_kernel(now=True)
+        await km.cleanup_resources()
+        print(f"{kc.context=}")
+        print(f"{km.context=}")
+        print(f"{threading.enumerate()=}")
+    asyncio.run(f())
     
     # run_sync(km.)
     # with nbc.setup_kernel():
